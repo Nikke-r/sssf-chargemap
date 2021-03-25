@@ -1,0 +1,32 @@
+{
+  "name": "sssf-chargemap",
+  "version": "1.0.0",
+  "description": "SSSF Course Week2 chargemap task",
+  "main": "server.js",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.2",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nikke-r/sssf-chargemap.git"
+  },
+  "keywords": [
+    "Node.js",
+    "mongo",
+    "jelastic"
+  ],
+  "author": "Niklas Rönnholm",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Nikke-r/sssf-chargemap/issues"
+  },
+  "homepage": "https://github.com/Nikke-r/sssf-chargemap#readme"
+}
