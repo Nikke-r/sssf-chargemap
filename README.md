@@ -44,3 +44,33 @@ Example body for creating a new station:
 ### Example for DELETE method
 
 If you need to delete some station, just pass the `ID` of the station as a parameter `http://first-app.jelastic.metropolia.fi/stations/ID`
+
+### Example for PUT method
+
+Just pass the new object as a body with the `ID`'s of the station and Connections and send it to the endpoint using `PUT` method
+
+```
+{
+"Station": {
+    "_id": ID,
+    "Title": "Testi",
+    "Town": "Espoo",
+    "AddressLine1": "Sinimäentie 8b",
+    "StateOrProvince": "Southern Finland",
+    "Postcode": "02630",
+    "Location": {
+        "coordinates": [24.77772323548868, 60.203353130088146]
+        }
+},
+"Connections":[
+        {
+        "_id": ID,
+        "ConnectionTypeID": "5e39eecac5598269fdad81a0",
+        "CurrentTypeID": "5e39ef4a6921476aaf62404a",
+        "LevelID": "5e39edf7bb7ae768f05cf2bc",
+        "Quantity": 7
+        }
+  ]
+}
+
+```
