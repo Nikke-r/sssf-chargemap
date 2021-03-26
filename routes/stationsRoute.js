@@ -136,15 +136,28 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/', async (req, res) => {
   try {
-    const id = req.params.id;
+    const { Station, Connections } = req.body;
 
-    const document = await station.findById(id).populate('Connections');
+    const document = await station.findByIdAndUpdate(Station._id, Station, { new: true });
 
-    console.log(document);
+    const updatedConnections = await Promise.all(Connections.map(async (newConn) => {
+      try {
+        const conn = await connection.findByIdAndUpdate(newConn._id, newConn);
+        return conn._id;
+      } catch (error) {
+        console.log(error.message);
+      }
+    }));
 
-    res.status(200).json(document);
+    document.Connections = updatedConnections;
+
+    await document.save();
+
+    const populate = await document.populate('Connections').execPopulate();
+
+    res.status(200).json(populate);
   } catch (error) {
    res.status(500).json({ error: error.message }); 
   }
