@@ -1,14 +1,27 @@
 'use strict';
 
-require('dotenv').config();
-const express = require('express');
-const db = require('./db');
-const app = express();
-const PORT = 3000;
-const stationRoute = require('./routes/stationsRoute');
+import 'dotenv/config.js';
+import { ApolloServer } from 'apollo-server-express';
+import express from 'express';
+import connectMongo from './db.js';
+import schemas from './schemas/index.js';
+import resolvers from './resolvers/index.js';
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use('/stations', stationRoute);
+(async () => {
+  try {
+    await connectMongo();
 
-db.on('connected', () =>  app.listen(PORT));
+    const server = new ApolloServer({
+      typeDefs: schemas,
+      resolvers
+    });
+
+    const app = express();
+
+    server.applyMiddleware({ app });
+
+    app.listen({ port: 3000 }, () => console.log(`Server running at http://localhost:3000${server.graphqlPath}`))
+  } catch (error) {
+    console.log(`Error while creating a server: ${error.message}`);
+  }
+})();

@@ -1,7 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const stationsSchema = new mongoose.Schema({
-  id: String,
   Title: String,
   Town: String,
   AddressLine1: String,
@@ -24,4 +23,4 @@ const stationsSchema = new mongoose.Schema({
   ]
 });
 
-module.exports = mongoose.model('Stations', stationsSchema);
+export default mongoose.model('Stations', stationsSchema);

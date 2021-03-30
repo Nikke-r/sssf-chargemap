@@ -1,10 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const levelTypeSchema = new mongoose.Schema({
-  id: String,
   Title: String,
   Comments: String,
   IsFastChargeCapable: Boolean,
 });
 
-module.exports = mongoose.model('Level', levelTypeSchema);
+export default mongoose.model('Level', levelTypeSchema);
