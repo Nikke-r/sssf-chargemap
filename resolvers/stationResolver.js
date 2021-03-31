@@ -57,7 +57,16 @@ export default {
 
         let updatedStation = await Station.findByIdAndUpdate(id, { ...rest }, { new: true });
 
-        if (Connections) updatedStation.Connections = Connections;
+        if (Connections) {
+          await Promise.all(Connections.map(async conn => {
+            try {
+              const { id, ...rest } = conn;
+              await Connection.findByIdAndUpdate(id, { ...rest }, { new: true });
+            } catch (error) {
+              throw new UserInputError(`Error while updating the connections: ${error.message}`);
+            }
+          }))
+        }
 
         return updatedStation.save();
       } catch (error) {

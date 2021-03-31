@@ -28,6 +28,7 @@ export default gql`
   }
 
   input NewConnections {
+    id: ID!
     ConnectionTypeID: String
     CurrentTypeID: String
     LevelID: String
@@ -54,7 +55,7 @@ export default gql`
       Location: NewLocation,
     ): Station,
     modifyStation(
-      id: String!,
+      id: ID!,
       Connections: [NewConnections],
       Postcode: String,
       Title: String,
