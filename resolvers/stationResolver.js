@@ -1,4 +1,4 @@
-import { UserInputError } from 'apollo-server-errors';
+import { AuthenticationError, UserInputError } from 'apollo-server-errors';
 import Station from '../models/stationsModel.js';
 import Connection from '../models/connectionsModel.js';
 import { rectangelBounds } from '../utils/helper.js';
@@ -27,8 +27,12 @@ export default {
     }
   },
   Mutation: {
-    addStation: async (_, args) => {
+    addStation: async (_, args, context) => {
       try {
+        const { user } = context;
+        
+        if (!user) throw new AuthenticationError('Not authenticated!');
+
         const { Connections, ...rest } = args;
 
         const newConnections = await Promise.all(Connections.map(async conn => {
@@ -51,10 +55,13 @@ export default {
         throw new UserInputError(`Error while adding a new station: ${error.message}`);
       }
     },
-    modifyStation: async (_, args) => {
+    modifyStation: async (_, args, context) => {
       try {
-        const { id, Connections, ...rest } = args;
+        const { user } = context;
+        
+        if (!user) throw new AuthenticationError('Not authenticated!');
 
+        const { id, Connections, ...rest } = args;
         let updatedStation = await Station.findByIdAndUpdate(id, { ...rest }, { new: true });
 
         if (Connections) {
@@ -73,8 +80,12 @@ export default {
         throw new UserInputError(`Error while modifying the station: ${error.message}`);
       }
     },
-    deleteStation: async (_, args) => {
+    deleteStation: async (_, args, context) => {
       try {
+        const { user } = context;
+        
+        if (!user) throw new AuthenticationError('Not authenticated!');
+
         const { id } = args;
 
         await Station.findByIdAndDelete(id);

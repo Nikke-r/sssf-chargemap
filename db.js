@@ -6,6 +6,7 @@ const connectMongo = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
+      useCreateIndex: true,
     });
 
     console.log('Connected to the database!');
