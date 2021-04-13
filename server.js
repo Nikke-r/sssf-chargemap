@@ -33,12 +33,14 @@ import cors from 'cors';
 
     app.use(cors());
     app.use(helmet({
-      ieNoOpen: false
+      ieNoOpen: false,
+      contentSecurityPolicy: false
     }));
 
     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
     if (process.env.NODE_ENV === 'production') {
+      console.log('Prodd');
       const { default: production } = await import('./security/production.js');
       production(app, 3000);
     } else {
@@ -46,7 +48,7 @@ import cors from 'cors';
       localhost(app, 8000, 3000);
     }
 
-    server.applyMiddleware({ app });
+    server.applyMiddleware({ app, path: '/graphql' });
   } catch (error) {
     console.log(`Error while creating a server: ${error.message}`);
   }
