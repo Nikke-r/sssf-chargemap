@@ -6,8 +6,6 @@ import express from 'express';
 import connectMongo from './db.js';
 import schemas from './schemas/index.js';
 import resolvers from './resolvers/index.js';
-import localhost from './security/localhost.js';
-import production from './security/production.js';
 import { checkAuthentication } from './passport/authenticate.js';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -41,8 +39,10 @@ import cors from 'cors';
     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
     if (process.env.NODE_ENV === 'production') {
+      const { default: production } = await import('./security/production.js');
       production(app, 3000);
     } else {
+      const { default: localhost } = await import('./security/localhost.js');
       localhost(app, 8000, 3000);
     }
 
